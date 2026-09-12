@@ -1,0 +1,13 @@
+{
+  "name": "portfolio-screenshot-tools",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Playwright screenshot capture for the ANTRA-WEB portfolio thumbnails.",
+  "type": "module",
+  "scripts": {
+    "capture": "node capture-screenshots.mjs"
+  },
+  "dependencies": {
+    "playwright": "^1.47.0"
+  }
+}
