@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://antra-web.github.io/Antra-Web/sitemap.xml

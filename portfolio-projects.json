@@ -1,0 +1,32 @@
+{
+  "_comment": "Single source of truth for the portfolio screenshot system. Each entry drives: (1) the Playwright capture script, (2) the portfolio.html thumbnail <img>. name/url/category are taken verbatim from the existing portfolio.html — do not invent entries. To add a new project: add an entry here, then add a matching card in portfolio.html using the same screenshotFile.",
+  "viewport": { "width": 1280, "height": 960 },
+  "screenshotDir": "assets",
+  "projects": [
+    { "name": "Restaurant", "url": "https://antra-web.github.io/Restaurant/", "category": "food", "screenshotFile": "restaurant.png" },
+    { "name": "Field-Fold", "url": "https://antra-web.github.io/Field-Fold/", "category": "business", "screenshotFile": "field-fold.png" },
+    { "name": "Gym Coach", "url": "https://antra-web.github.io/Gym-Coach/", "category": "fitness", "screenshotFile": "gym-coach.png" },
+    { "name": "Pest Control", "url": "https://antra-web.github.io/Pest-Control/", "category": "services", "screenshotFile": "pest-control.png" },
+    { "name": "Interior Designing", "url": "https://antra-web.github.io/Interior-Designing/", "category": "creative", "screenshotFile": "interior-designing.png" },
+    { "name": "Luxury Salon", "url": "https://antra-web.github.io/Luxury-Salon/", "category": "beauty", "screenshotFile": "luxury-salon.png" },
+    { "name": "Custom Drinks", "url": "https://antra-web.github.io/Custom-Drinks/", "category": "drinks", "screenshotFile": "custom-drinks.png" },
+    { "name": "DUMRAZZ", "url": "https://antra-web.github.io/DUMRAZZ/", "category": "food", "screenshotFile": "dumrazz.png" },
+    { "name": "Salon", "url": "https://antra-web.github.io/salon/", "category": "beauty", "screenshotFile": "salon.png" },
+    { "name": "Salon Spa", "url": "https://antra-web.github.io/Salon-spa-/", "category": "beauty", "screenshotFile": "salon-spa.png" },
+    { "name": "Custom Treats", "url": "https://antra-web.github.io/Custom-Treats/", "category": "bakery", "screenshotFile": "custom-treats.png" },
+    { "name": "Custom Cakes", "url": "https://antra-web.github.io/Custom-Cakes/", "category": "bakery", "screenshotFile": "custom-cakes.png" },
+    { "name": "Custom Bouquets", "url": "https://antra-web.github.io/Custom-Bouquets/", "category": "creative", "screenshotFile": "custom-bouquets.png" },
+    { "name": "Gym", "url": "https://antra-web.github.io/gym/", "category": "fitness", "screenshotFile": "gym.png" },
+    { "name": "Cozy Cafe", "url": "https://antra-web.github.io/Cozy-Cafe/", "category": "drinks", "screenshotFile": "cozy-cafe.png" },
+    { "name": "One Site Cake", "url": "https://antra-web.github.io/One-Site-cake/", "category": "bakery", "screenshotFile": "one-site-cake.png" },
+    { "name": "Cleaning Services", "url": "https://antra-web.github.io/cleaning-services/", "category": "services", "screenshotFile": "cleaning-services.png" },
+    { "name": "Plumbing Service", "url": "https://antra-web.github.io/Plumbing-Service/", "category": "services", "screenshotFile": "plumbing-service.png" },
+    { "name": "Bakery", "url": "https://antra-web.github.io/bakery/", "category": "bakery", "screenshotFile": "bakery.png" },
+    { "name": "Dentist", "url": "https://antra-web.github.io/Dentist/", "category": "services", "screenshotFile": "dentist.png" },
+    { "name": "Velora", "url": "https://antra-web.github.io/Velora/", "category": "fashion", "screenshotFile": "velora.png" },
+    { "name": "Vanta", "url": "https://antra-web.github.io/VANTA/", "category": "automotive", "screenshotFile": "vanta.png" },
+    { "name": "Made for a Moment", "url": "https://antra-web.github.io/Made-For-a-Momen/", "category": "gifting", "screenshotFile": "made-for-a-moment.png" },
+    { "name": "Ashgrove Academy", "url": "https://antra-web.github.io/Ashgrove-Academy/", "category": "education", "screenshotFile": "ashgrove-academy.png" },
+    { "name": "Loop and Bloom", "url": "https://antra-web.github.io/Loop-And-Bloom/", "category": "creative", "screenshotFile": "loop-and-bloom.png" }
+  ]
+}

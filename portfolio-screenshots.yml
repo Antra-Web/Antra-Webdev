@@ -1,0 +1,104 @@
+name: Portfolio Screenshots
+
+# WHEN THIS RUNS
+# 1. schedule   -> automatic refresh, once a week (edit the cron below to change cadence)
+# 2. workflow_dispatch -> manual "Run workflow" button in the Actions tab.
+#    Leave "project" blank to refresh all 25. Fill in an exact project name
+#    (matching "name" in config/portfolio-projects.json, e.g. "Interior Designing")
+#    to refresh just that one — this is the fastest way to get an immediate update
+#    after you push changes to a single project site.
+# 3. repository_dispatch -> OPTIONAL. If one of your individual project repos
+#    wants to trigger an immediate refresh right after it deploys, it can send:
+#      curl -X POST \
+#        -H "Authorization: token <PAT_WITH_ACTIONS_WRITE>" \
+#        -H "Accept: application/vnd.github+json" \
+#        https://api.github.com/repos/<owner>/<this-portfolio-repo>/dispatches \
+#        -d '{"event_type":"portfolio-thumbnail-refresh","client_payload":{"project":"Interior Designing"}}'
+#    This requires a Personal Access Token with Actions:write on this repo,
+#    stored as a secret in the OTHER repo. That's real (if a github App/PAT is
+#    already sitting around) but it is per-project-repo setup, so it's opt-in —
+#    schedule + manual dispatch work with zero extra setup.
+
+on:
+  schedule:
+    - cron: '0 6 * * 1' # every Monday 06:00 UTC
+  workflow_dispatch:
+    inputs:
+      project:
+        description: 'Exact project name to refresh (blank = all 25)'
+        required: false
+        default: ''
+  repository_dispatch:
+    types: [portfolio-thumbnail-refresh]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: portfolio-screenshots
+  cancel-in-progress: false
+
+jobs:
+  screenshot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: scripts/package.json
+
+      - name: Install script dependencies
+        working-directory: scripts
+        run: npm install --no-audit --no-fund
+
+      - name: Install Playwright Chromium
+        working-directory: scripts
+        run: npx playwright install --with-deps chromium
+
+      - name: Install emoji font for screenshot rendering
+        run: sudo apt-get update && sudo apt-get install -y fonts-noto-color-emoji
+
+      - name: Capture screenshots (manual dispatch, single project)
+        if: github.event_name == 'workflow_dispatch' && inputs.project != ''
+        run: node scripts/capture-screenshots.mjs "${{ inputs.project }}"
+
+      - name: Capture screenshots (repository_dispatch, single project)
+        if: github.event_name == 'repository_dispatch' && github.event.client_payload.project != ''
+        run: node scripts/capture-screenshots.mjs "${{ github.event.client_payload.project }}"
+
+      - name: Capture screenshots (all projects)
+        if: >
+          github.event_name == 'schedule' ||
+          (github.event_name == 'workflow_dispatch' && inputs.project == '') ||
+          (github.event_name == 'repository_dispatch' && github.event.client_payload.project == '')
+        run: node scripts/capture-screenshots.mjs
+
+      - name: Show run summary
+        if: always()
+        run: cat screenshot-run-summary.json || true
+
+      - name: Commit and push changed screenshots
+        run: |
+          git config user.name "portfolio-screenshot-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add assets
+          if git diff --cached --quiet; then
+            echo "No screenshot changes to commit."
+          else
+            git commit -m "chore: refresh portfolio screenshots [skip ci]"
+            git push
+          fi
+
+      - name: Upload run summary artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: screenshot-run-summary
+          path: screenshot-run-summary.json
+          retention-days: 14
